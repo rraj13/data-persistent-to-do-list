@@ -3,7 +3,7 @@ const todo = require("../models/todo.js");
 module.exports = function(app) {
     //display all todos on load 
     app.get("/", function(req, res) {
-        todo.selectAll(function(data) {
+        todo.displayAll(function(data) {
             
             var hbsObject = {
                 todo: data
@@ -19,7 +19,7 @@ module.exports = function(app) {
     app.post("/todos", function(req, res) {
         let newToDoInfo = req.body;
 
-        todo.insertOne("todo_item", "completed", newToDoInfo.content, newToDoInfo.completed, function(result) {
+        todo.insertTodo("todo_item", "completed", newToDoInfo.content, newToDoInfo.completed, function(result) {
 
             res.json({id: result.insertId});
             
@@ -31,7 +31,7 @@ module.exports = function(app) {
     app.put("/todos/:id", function(req, res) {
         let completedToDo = req.body; 
 
-        todo.completeOne("completed", completedToDo.completed, "id", req.params.id, function(result) {
+        todo.completeTodo("completed", completedToDo.completed, "id", req.params.id, function(result) {
 
             if (result.changedRows === 0) {
                 return res.status(404).end();
@@ -46,7 +46,7 @@ module.exports = function(app) {
 
     app.delete("/todos/:id", function(req, res) {
 
-        todo.deleteOne("id", req.params.id, function(result) {
+        todo.deleteTodo("id", req.params.id, function(result) {
             if (result.affectedRows === 0) {
                 return res.status(404).end();
             } else {
@@ -55,7 +55,6 @@ module.exports = function(app) {
         });
     });
 
-    
 }
 
 

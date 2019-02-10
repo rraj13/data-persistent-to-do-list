@@ -12,9 +12,5 @@ CREATE TABLE todos
     PRIMARY KEY (id)
 );
 
-INSERT INTO todos (todo_item, completed) VALUES ("Learn sequelize", FALSE);
-INSERT INTO todos (todo_item, completed) VALUES ("Learn frontend", FALSE);
-INSERT INTO todos (todo_item, completed) VALUES ("Learn react",  FALSE);
-
 
 SELECT * FROM todos;
