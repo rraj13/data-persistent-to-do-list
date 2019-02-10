@@ -7,7 +7,7 @@ USE todo_db;
 CREATE TABLE todos 
 (
     id INT AUTO_INCREMENT,
-    todo_item VARCHAR(100) NOT NULL,
+    todo_item VARCHAR(255) NOT NULL,
     completed BOOLEAN NOT NULL,
     PRIMARY KEY (id)
 );
