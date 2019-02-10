@@ -1,0 +1,132 @@
+<div class="wrapper">
+
+    <div class="todos-display">
+
+        <div class="nav">
+            <div class="nav-content">
+                <span>Tasks</span>
+                <button id="show-add"><i class="fas fa-plus fa-2x"></i></button>
+            </div>
+        </div>
+
+        <div class="todos-render">
+            {{#each todo}}
+                {{#if this.completed}}
+                <p class="completed todo-item">
+                    {{this.todo_item}} 
+                    <i class="fas fa-times fa-sm remove" data-todoid="{{this.id}}"></i>
+                </p>
+                {{else}}
+                <p class="todo-item">
+                    <input type="checkbox" data-todoid = "{{this.id}}" class="complete-todo">
+                    {{this.todo_item}}
+                    <i class="fas fa-times fa-sm remove" data-todoid="{{this.id}}"></i>
+                    <i class="far fa-edit fa-sm show-edit"></i>
+                </p>
+                {{/if}}
+            {{/each}} 
+        </div>
+
+
+        <form class="add-todo hidden operations-form">
+
+            <input type="text" id="todo-content" name="todo" placeholder="Go out with Bae...">
+            <button type="submit" class="submit-todo">Add</button>
+
+        </form>
+
+
+        <form class="update hidden operations-form">
+
+            <input type="text" id="update-id" placeholder="Enter id">
+            <input type="text" id="update-content" placeholder="Enter new text">
+
+            <button type="submit" class="update-todo">Update</button>
+        
+        </form>
+
+    </div>
+
+</div>
+
+<script>
+
+    let addClicked = false;
+
+    $("#show-add").on("click", function(e) {
+
+        e.preventDefault();
+
+        if (!addClicked) {
+            $(".todos-render").css("opacity", "0.2");
+            $(this).html("<i class='fas fa-times fa-2x'>" + "</i>");
+            $(".add-todo").fadeIn();
+            $(".add-todo").addClass("hidden");
+            addClicked = true;
+        } else {
+            $(".todos-render").css("opacity", "1");
+            $(this).html("<i class='fas fa-plus fa-2x'>" + "</i>");
+            $(".add-todo").fadeOut();
+            $(".add-todo").addClass("hidden");
+            addClicked = false;
+        }
+
+    });
+
+    //add to do functionality
+    $(".submit-todo").on("click", function(e) {
+        e.preventDefault();
+        
+        let newToDo = {
+            content: $("#todo-content").val().trim(),
+            completed: 0
+        }
+
+        $.ajax("/todos", {
+            type: "POST",
+            data: newToDo
+        }).then(
+            function() {
+                location.reload();
+            }
+        );
+    });
+
+    //marks todo as completed(changes completed to true in database)
+
+    $(".complete-todo").on("click", function(e) {
+        e.preventDefault();
+
+        let id = $(this).data("todoid");
+
+        let completedToDo = {
+            completed: 1
+        }
+
+        $.ajax("/todos/" + id, {
+            type: "PUT",
+            data: completedToDo
+        }).then(
+            function() {
+               location.reload(); 
+            }
+        );
+    });
+
+    //update todo functionality
+
+    $(".remove").on("click", function(e) {
+        e.preventDefault();
+
+        let id = $(this).data("todoid");
+
+        $.ajax("/todos/" + id, {
+            type: "DELETE"
+        }).then(
+            function() {
+                location.reload();
+            }
+        )
+    });
+
+</script>

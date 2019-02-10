@@ -1,0 +1,24 @@
+{
+  "name": "data-persistent-to-do-list",
+  "version": "1.0.0",
+  "description": "data-persistent to do list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rraj13/data-persistent-to-do-list.git"
+  },
+  "author": "rahul raj",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rraj13/data-persistent-to-do-list/issues"
+  },
+  "homepage": "https://github.com/rraj13/data-persistent-to-do-list#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "mysql": "^2.16.0"
+  }
+}
